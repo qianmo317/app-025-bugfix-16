@@ -169,9 +169,9 @@ export default function Water({ plan }: { plan: Plan }) {
         <section className="card2" data-testid="card-filter">
           <h3>过滤流量</h3>
           <p className="big">
-            {Math.round(eff * 3)}~{Math.round(eff * 6)} L/h
+            {flow.min}~{flow.max} L/h
           </p>
-          <p className="muted small">按 3~6 倍水量每小时（经验值，按 {eff.toFixed(0)}L）</p>
+          <p className="muted small">按 5~8 倍水量每小时（经验值，按 {eff.toFixed(0)}L）</p>
         </section>
 
         <section className="card2" data-testid="card-heater">
@@ -180,10 +180,10 @@ export default function Water({ plan }: { plan: Plan }) {
             <Field label="室温 °C" value={w.roomTempC} onChange={(v) => updateWater(plan.id, { roomTempC: v })} testid="room-temp" />
             <Field label="目标水温 °C" value={w.targetTempC} onChange={(v) => updateWater(plan.id, { targetTempC: v })} testid="target-temp" />
           </div>
-          <p className="big">{Math.round(eff * Math.max(0, w.targetTempC - w.roomTempC) * 0.05)} W</p>
+          <p className="big">{heater.suggested} W</p>
           <p className="muted small">
-            计算 {Math.round(eff * Math.max(0, w.targetTempC - w.roomTempC) * 0.05)}W = {eff.toFixed(0)}L × ΔT
-            {Math.max(0, w.targetTempC - w.roomTempC).toFixed(0)}°C × 0.05（经验估算）
+            计算 {heater.watts}W = {eff.toFixed(0)}L × ΔT
+            {Math.max(0, w.targetTempC - w.roomTempC).toFixed(0)}°C × 0.12（经验估算），按市售规格上取整
           </p>
         </section>
       </div>
