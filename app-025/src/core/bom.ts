@@ -71,23 +71,23 @@ export function buildBom(
   // 设备
   const eq = equipmentSummary(tank, substrate, items, 'mid', water.roomTempC, water.targetTempC);
   lines.push({
-                category: '设备',
-                name: '过滤器',
-                spec: `流量 ${Math.round(eq.effectiveL * 3)}~${Math.round(eq.effectiveL * 6)} L/h（经验值）`,
-                qty: '1 台',
-              });
-              lines.push({
-                category: '设备',
-                name: '照明灯',
-                spec: `${eq.light.watts} W / ${eq.light.lumens} lm（中光档，按 ${eq.effectiveL.toFixed(0)}L 有效水量）`,
-                qty: '1 盏',
-              });
-              lines.push({
-                category: '设备',
-                name: '加热棒',
-                spec: `${eq.heater.watts} W（计算值，未按市售规格取整）`,
-                qty: '1 支',
-              });
+    category: '设备',
+    name: '过滤器',
+    spec: `流量 ${eq.filter.min}~${eq.filter.max} L/h（5~8 倍有效水量/小时，按 ${eff.toFixed(0)}L）`,
+    qty: '1 台',
+  });
+  lines.push({
+    category: '设备',
+    name: '照明灯',
+    spec: `${eq.light.lumens} lm / ${eq.light.watts} W（中光档，按 ${eq.effectiveL.toFixed(0)}L 有效水量）`,
+    qty: '1 盏',
+  });
+  lines.push({
+    category: '设备',
+    name: '加热棒',
+    spec: `${eq.heater.suggested} W（计算值 ${eq.heater.watts}W，按市售规格上取整）`,
+    qty: '1 支',
+  });
 
   const plantQty = plants.reduce((s, p) => s + (p.qty ?? 1), 0);
   const wc = weeklyWaterChangePct(plantQty, eff);
